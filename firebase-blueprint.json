@@ -1,0 +1,137 @@
+{
+  "entities": {
+    "EmployeeProfile": {
+      "title": "EmployeeProfile",
+      "description": "Perfil laboral y configuración salarial de un empleado dentro del espacio de trabajo.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID del usuario propietario autenticado." },
+        "fullName": { "type": "string", "description": "Nombre completo del colaborador." },
+        "roleTitle": { "type": "string", "description": "Cargo o puesto laboral." },
+        "department": { "type": "string", "description": "Departamento o área." },
+        "employeeCode": { "type": "string", "description": "Código interno de empleado." },
+        "monthlyBaseSalary": { "type": "number", "description": "Salario base mensual en moneda local." },
+        "payFrequency": { "type": "string", "enum": ["quincenal", "mensual"], "description": "Frecuencia de pago." },
+        "dailyWorkHours": { "type": "number", "description": "Jornada diaria ordinaria en horas." },
+        "overtimeMultiplier": { "type": "number", "description": "Factor multiplicador de horas extras." },
+        "isSelf": { "type": "boolean", "description": "Indica si corresponde al usuario principal." },
+        "active": { "type": "boolean", "description": "Estado activo en nómina." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Marca temporal de servidor al crear (FieldValue.serverTimestamp())." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Marca temporal de servidor al actualizar (FieldValue.serverTimestamp())." }
+      },
+      "required": [
+        "userId",
+        "fullName",
+        "roleTitle",
+        "department",
+        "employeeCode",
+        "monthlyBaseSalary",
+        "payFrequency",
+        "dailyWorkHours",
+        "overtimeMultiplier",
+        "isSelf",
+        "active",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "AttendanceLog": {
+      "title": "AttendanceLog",
+      "description": "Registro de marcación de asistencia (Entrada/Salida) con cálculo de jornada ordinaria y horas extras.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID del usuario propietario autenticado." },
+        "employeeId": { "type": "string", "description": "ID del documento EmployeeProfile asociado." },
+        "employeeName": { "type": "string", "description": "Nombre visible del colaborador." },
+        "workDate": { "type": "string", "description": "Fecha de la jornada en formato YYYY-MM-DD." },
+        "clockInMillis": { "type": "integer", "description": "Timestamp epoch en milisegundos de la Entrada." },
+        "clockOutMillis": { "type": "integer", "description": "Timestamp epoch en milisegundos de la Salida (0 si aún abierta)." },
+        "modality": { "type": "string", "enum": ["presencial", "remoto", "campo"], "description": "Modalidad de trabajo." },
+        "status": { "type": "string", "enum": ["abierto", "completado", "tardanza", "incompleto"], "description": "Estado de la marcación." },
+        "regularHours": { "type": "number", "description": "Horas ordinarias trabajadas." },
+        "overtimeHours": { "type": "number", "description": "Horas extras acumuladas." },
+        "notes": { "type": "string", "description": "Observaciones de la jornada." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Marca temporal de servidor al crear (FieldValue.serverTimestamp())." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Marca temporal de servidor al actualizar (FieldValue.serverTimestamp())." }
+      },
+      "required": [
+        "userId",
+        "employeeId",
+        "employeeName",
+        "workDate",
+        "clockInMillis",
+        "clockOutMillis",
+        "modality",
+        "status",
+        "regularHours",
+        "overtimeHours",
+        "notes",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "PayrollRecord": {
+      "title": "PayrollRecord",
+      "description": "Recibo de nómina quincenal o mensual con desglose de Salario Base, Horas Extras, INSS Laboral 7% e IR anual proyectado.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID del usuario propietario autenticado." },
+        "employeeId": { "type": "string", "description": "ID del documento EmployeeProfile asociado." },
+        "employeeName": { "type": "string", "description": "Nombre del colaborador." },
+        "periodType": { "type": "string", "enum": ["quincenal", "mensual"], "description": "Tipo de período." },
+        "periodLabel": { "type": "string", "description": "Etiqueta descriptiva del período de pago." },
+        "baseSalaryPeriod": { "type": "number", "description": "Salario base correspondiente al período." },
+        "overtimeHours": { "type": "number", "description": "Total de horas extras liquidadas." },
+        "overtimePay": { "type": "number", "description": "Monto pagado por horas extras." },
+        "bonuses": { "type": "number", "description": "Bonificaciones o comisiones gravables." },
+        "grossPay": { "type": "number", "description": "Total ingreso bruto del período." },
+        "inssEmployee": { "type": "number", "description": "Deducción INSS Laboral (7%)." },
+        "taxableBasePeriod": { "type": "number", "description": "Base imponible neta de INSS." },
+        "projectedAnnualIncome": { "type": "number", "description": "Proyección anualizada para cálculo de IR." },
+        "irBracketLabel": { "type": "string", "description": "Tramo de la tabla progresiva anual aplicado." },
+        "irPeriod": { "type": "number", "description": "Retención de Impuesto sobre la Renta (IR) del período." },
+        "otherDeductions": { "type": "number", "description": "Otras deducciones autorizadas." },
+        "netPay": { "type": "number", "description": "Salario neto a recibir." },
+        "status": { "type": "string", "enum": ["borrador", "pagado"], "description": "Estado de emisión del recibo." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Marca temporal de servidor al crear (FieldValue.serverTimestamp())." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Marca temporal de servidor al actualizar (FieldValue.serverTimestamp())." }
+      },
+      "required": [
+        "userId",
+        "employeeId",
+        "employeeName",
+        "periodType",
+        "periodLabel",
+        "baseSalaryPeriod",
+        "overtimeHours",
+        "overtimePay",
+        "bonuses",
+        "grossPay",
+        "inssEmployee",
+        "taxableBasePeriod",
+        "projectedAnnualIncome",
+        "irBracketLabel",
+        "irPeriod",
+        "otherDeductions",
+        "netPay",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/employees/{employeeId}": {
+      "schema": { "$ref": "#/entities/EmployeeProfile" },
+      "description": "Perfiles de empleados y configuración salarial gestionados por el usuario autenticado."
+    },
+    "/users/{userId}/attendance_logs/{logId}": {
+      "schema": { "$ref": "#/entities/AttendanceLog" },
+      "description": "Registros de marcación Entrada/Salida pertenecientes al espacio del usuario."
+    },
+    "/users/{userId}/payrolls/{payrollId}": {
+      "schema": { "$ref": "#/entities/PayrollRecord" },
+      "description": "Historial de recibos de nómina quincenal/mensual con desglose INSS 7% e IR."
+    }
+  }
+}

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Nómina Pro</string>
+    <string name="auth_title">Nómina Pro</string>
+    <string name="auth_subtitle">Control de Asistencia, Desglose de Nómina e Inteligencia Laboral</string>
+    <string name="sign_in_google">Iniciar sesión con Google</string>
+    <string name="nav_attendance">Asistencia</string>
+    <string name="nav_payroll">Nómina</string>
+    <string name="nav_assistant">Asistente</string>
+    <string name="nav_team">Equipo</string>
+</resources>

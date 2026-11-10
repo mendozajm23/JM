@@ -1,0 +1,6 @@
+{
+  "name": "Nómina Pro",
+  "description": "Control de Asistencia, Nómina quincenal/mensual (INSS 7% e IR) y Asistente Laboral con IA.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
